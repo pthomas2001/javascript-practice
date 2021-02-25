@@ -6,7 +6,7 @@ var bookCatalog = {
     'year of publication': 2002,
     'has been read': true,
     'main characters': ['Saphira', 'Arya', 'Murtagh', 'Brom', 'Galbatorix', 'Roran', 'Nasuada', 'Orik', 'Eragon'],
-    'borrowed by': undefined,
+    'borrowed by': null,
     'rating': 5,
   },
   'myBook2': {
@@ -16,7 +16,7 @@ var bookCatalog = {
     'year of publication': 1997,
     'has been read': true,
     'main characters': ['Harry Potter', 'Ron Weasley', 'Hermione Granger', 'Ginny Weasley', 'Voldemort'],
-    'borrowed by': undefined,
+    'borrowed by': 'Kis Péter',
     'rating': 5,
   },
   'myBook3': {
@@ -26,7 +26,7 @@ var bookCatalog = {
     'year of publication': 1895,
     'has been read': false,
     'main characters': ['Pongrácz István', 'Estella', 'Pamutkay János', 'Kovács János', 'Rebernyik János', 'Blázy Miklós polgármester', 'Trnowszky Gáspár', 'Trnowszky György', 'Trnowszky Péter', 'Apolka', 'Emil', 'Behenczy Pál báró és a fia', 'Károly', 'Klivényi József írnok'],
-    'borrowed by': undefined,
+    'borrowed by': null,
     'rating': 5,
   },
 
@@ -57,5 +57,33 @@ var bookCatalog = {
   'change property': function (object, property) {
     this[object][property] = prompt('A(z) ' + object + ' objektum ' + property + ' tulajdonságának jelenlegi értéke: ' + this[object][property] + '. Mi legyen az új érték?');
     alert('A(z) ' + object + ' objektum ' + property + ' tulajdonságának új értéke ' + this[object][property] + '.')
-  }
+  },
+	
+	//beágyazott objektumon belüli tömb bővítése
+	'add quote': function (book, page) {
+		if (this[book].quotes === undefined) {
+			this[book].quotes = {};
+		}
+		if (this[book].quotes[page] === undefined) {
+			this[book].quotes[page] = [];
+		}
+		newQuote = prompt('Mi az idézet, amit hozzá szeretnél adni az idézetekhez a(z) ' + this[book].title + ' könyv ' + page + '. ');
+		this[book].quotes[page].push(newQuote);
+		alert('A következő idézet hozzáadva a(z) ' + this[book].title + ' könyv ' + page + '. oldaláról: "' + newQuote + '"');
+	},
+	'borrowed': function () {
+		var borrowedBooks = [];
+		for (var book in this) {
+			if (typeof this[book] !== 'function') {
+				if (this[book]['borrowed by'] !== null) {
+					borrowedBooks.push(this[book].title);
+				}
+			}
+		}
+		if (borrowedBooks.length === 0) {
+			console.log('Nincsenek kikölcsönzött könyvek.');
+		} else {
+			console.log('A következő könyvek vannak kikölcsönözve: ' + borrowedBooks);
+		}
+	}
 };
